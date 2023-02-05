@@ -8,15 +8,6 @@ import torch
 from torch.nn import functional as F
 from tokenizers import Tokenizer
 
-time_slot = {}
-time_ref = time.time_ns()
-
-def record_time(name):
-    if name not in time_slot:
-        time_slot[name] = 1e20
-    tt = (time.time_ns() - time_ref) / 1e9
-    if tt < time_slot[name]:
-        time_slot[name] = tt
 
 class TOKENIZER():
     def __init__(self, WORD_NAME):
