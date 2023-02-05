@@ -1,17 +1,14 @@
-########################################################################################################
-# The RWKV Language Model - https://github.com/BlinkDL/RWKV-LM
-########################################################################################################
-
-import json, time, random, os
+import os
 import numpy as np
+
 import torch
 from torch.nn import functional as F
 from tokenizers import Tokenizer
 
 
-class TOKENIZER():
-    def __init__(self, WORD_NAME):
-        self.tokenizer = Tokenizer.from_file(WORD_NAME)
+class TOKENIZER:
+    def __init__(self, word_name):
+        self.tokenizer = Tokenizer.from_file(word_name)
 
     def refine_context(self, context):
         context = context.strip().split('\n')
@@ -25,7 +22,7 @@ class TOKENIZER():
 
     def encode(self, x):
         return self.tokenizer.encode(x).ids
-    
+
     def decode(self, x):
         return self.tokenizer.decode(x)
 
@@ -35,7 +32,7 @@ class TOKENIZER():
 
         probs = F.softmax(out, dim=-1)
 
-        if os.environ["RWKV_RUN_DEVICE"] == "cpu":
+        if os.environ['RWKV_RUN_DEVICE'] == 'cpu':
             probs = probs.numpy()
             sorted_probs = np.sort(probs)[::-1]
             cumulative_probs = np.cumsum(sorted_probs)
